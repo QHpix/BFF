@@ -1,1 +1,2 @@
 # BFF
+Binary Fuzzing Framework
