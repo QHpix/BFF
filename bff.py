@@ -1,7 +1,5 @@
 #!/usr/bin/env python
 
-import ptrace.debugger
-import signal
 import subprocess
 import sys
 from Handler import Handler
