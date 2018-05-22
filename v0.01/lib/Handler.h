@@ -12,14 +12,17 @@
 #include <sys/wait.h>
 #include <sys/user.h>
 #include <sys/reg.h>
-struct PIPE{
-  int in;
-  int out;
-};
-class Handler{
-public:
-  Handler();
-private:
+class Handler {
+    public:
+        Handler(const char *name);
+        int recv(char *dest, uint64_t n);
+        void send(const char *data, uint64_t n);
+    private:
+        int _pid;
+        struct PIPE {
+            int out;
+            int in;
+        } _pipe;
 };
 
 
