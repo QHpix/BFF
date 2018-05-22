@@ -12,17 +12,25 @@
 #include <sys/wait.h>
 #include <sys/user.h>
 #include <sys/reg.h>
+#include <iostream>
+#include <cstdint> // include this header for size_t
+
+struct PIPE {
+    int out;
+    int in;
+};
+
 class Handler {
     public:
-        Handler(const char *name);
-        int recv(char *dest, uint64_t n);
-        void send(const char *data, uint64_t n);
+        Handler(const char *name, int inp[2], int outp[2]);
+        int recv(char *dest, size_t n);
+        void send(const void *data, size_t n);
+        void stopConnection();
+        PIPE getPipe();
     private:
-        int _pid;
-        struct PIPE {
-            int out;
-            int in;
-        } _pipe;
+        pid_t _pid;
+        int _status;
+        PIPE _pipe;
 };
 
 
