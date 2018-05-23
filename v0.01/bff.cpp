@@ -19,11 +19,11 @@ int main(int argc, char** argv)
   char buffer[50] = "TEST\n";
   int inp[2], outp[2];
   strncpy(name, argv[1], sizeof(name));
-  
+
   Handler hnd(name, inp, outp);
-  printf("[+] Sending %s", buffer);
+  printf("[+] Sending %s\n", buffer);
   hnd.send(buffer, strlen(buffer));
   hnd.recv(rcv, sizeof(rcv));
-  printf("[+] RECEVIED: %s", rcv);
+  printf("[+] RECEVIED: %s\n", rcv);
   hnd.stopConnection();
 }

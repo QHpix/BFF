@@ -2,9 +2,9 @@
 
 Handler::Handler(const char *name, int inp[2], int outp[2]){
   _pid = 0;
-  _pid = fork();
   pipe(inp);
   pipe(outp);
+  _pid = fork();
   if(_pid == 0)
   {
       //something child
