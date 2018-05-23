@@ -1,5 +1,10 @@
 #include "lib/Handler.h"
 
+void SIG_HANDLER(int signo){
+  if (signo == SIGSEGV){
+    printf("[+] SIGSEGV RECEIVED\n");
+  }
+}
 Handler::Handler(const char *name, int inp[2], int outp[2]){
   _pid = 0;
   pipe(inp);
@@ -8,6 +13,8 @@ Handler::Handler(const char *name, int inp[2], int outp[2]){
   if(_pid == 0)
   {
       //something child
+      if (signal(SIGSEGV, SIG_HANDLER) == SIG_ERR)
+        printf("\ncan't catch SIGSEGV\n");
       dup2(outp[0], STDIN_FILENO);
       dup2(inp[1], STDOUT_FILENO);
       dup2(inp[1], STDERR_FILENO);
@@ -45,9 +52,6 @@ void Handler::send(const void *data, size_t n){
   write(_pipe.out, data, n);
 }
 
-/*
-This function interacts forever
-*/
 
 void Handler::_readForever(){
   char buffer[500];
@@ -62,7 +66,9 @@ void Handler::_readForever(){
   }
 }
 
-
+/*
+This function interacts forever
+*/
 void Handler::interact(void){
   char buffer[500];
   std::thread readThread (&Handler::_readForever, this);

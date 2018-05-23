@@ -15,6 +15,7 @@
 #include <iostream>
 #include <thread>
 #include <cstdint> // include this header for size_t
+#include <signal.h>
 
 struct PIPE {
     int out;
