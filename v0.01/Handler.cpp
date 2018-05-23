@@ -44,3 +44,33 @@ int Handler::recv(char *dest, size_t n){
 void Handler::send(const void *data, size_t n){
   write(_pipe.out, data, n);
 }
+
+/*
+This function interacts forever
+*/
+
+void Handler::_readForever(){
+  char buffer[500];
+  while(1){
+    memset(buffer, 0, sizeof(buffer));
+    recv(buffer, sizeof(buffer));
+    if (*buffer != '\x00'){
+      printf("%s\n", buffer);
+      printf("$ ");
+      fflush(stdout);
+    }
+  }
+}
+
+
+void Handler::interact(void){
+  char buffer[500];
+  std::thread readThread (&Handler::_readForever, this);
+  printf("$ ");
+  fflush(stdout);
+  while (1){
+    memset(buffer, 0, sizeof(buffer));
+    read(0, buffer, sizeof(buffer));
+    send(buffer, sizeof(buffer));
+  }
+}

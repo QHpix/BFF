@@ -21,9 +21,6 @@ int main(int argc, char** argv)
   strncpy(name, argv[1], sizeof(name));
 
   Handler hnd(name, inp, outp);
-  printf("[+] Sending %s\n", buffer);
-  hnd.send(buffer, strlen(buffer));
-  hnd.recv(rcv, sizeof(rcv));
-  printf("[+] RECEVIED: %s\n", rcv);
+  hnd.interact();
   hnd.stopConnection();
 }

@@ -1,4 +1,4 @@
-CC=g++ -std=c++0x
+CC=g++ -std=c++0x -pthread
 CFLAGS=-I.
 
 bff: bff.cpp Handler.cpp
