@@ -13,8 +13,8 @@ Handler::Handler(const char *name, int inp[2], int outp[2]){
   if(_pid == 0)
   {
       //something child
-      if (signal(SIGSEGV, SIG_HANDLER) == SIG_ERR)
-        printf("\ncan't catch SIGSEGV\n");
+      signal(SIGSEGV, SIG_HANDLER);
+//        printf("\ncan't catch SIGSEGV\n");
       dup2(outp[0], STDIN_FILENO);
       dup2(inp[1], STDOUT_FILENO);
       dup2(inp[1], STDERR_FILENO);

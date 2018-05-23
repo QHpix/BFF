@@ -2,7 +2,7 @@
 
 int main(){
   char buf[50];
-  read(0, buf, sizeof(buf));
+  gets(buf);
   printf("RECEIVED: %s", buf);
   return 0;
 }
