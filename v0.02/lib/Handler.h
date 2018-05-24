@@ -30,9 +30,9 @@ class Handler {
         void interact(void);
         void stopConnection(void);
         void sig_handler(int);
+        pid_t getPid(void);
         void child_Died(void);
         PIPE getPipe(void);
-        struct sigaction sa;
     private:
         pid_t _pid;
         int _status;

@@ -94,3 +94,4 @@ void Handler::child_Died() {
   exit(0);
   //handle the segfault from here.
 }
+pid_t Handler::getPid(){ return _pid;}
