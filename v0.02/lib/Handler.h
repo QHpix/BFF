@@ -24,6 +24,7 @@ struct PIPE {
 
 class Handler {
     public:
+        Handler();
         Handler(const char *name, int inp[2], int outp[2]);
         int recv(char *dest, size_t n);
         void send(const void *data, size_t n);
@@ -33,10 +34,12 @@ class Handler {
         pid_t getPid(void);
         void child_Died(void);
         PIPE getPipe(void);
+        void config(const char *name, int inp[2], int outp[2]);
     private:
         pid_t _pid;
         int _status;
         PIPE _pipe;
+        bool _configured = false;
         void _readForever();
 };
 

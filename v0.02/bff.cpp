@@ -23,7 +23,7 @@ int main(int argc, char** argv)
   struct sigaction sa;
   strncpy(name, argv[1], sizeof(name));
 
-  hnd = new Handler(name, inp, outp);
+  hnd.config(name, inp, outp);
   sa.sa_handler = sig_handler;
   sigemptyset(&sa.sa_mask);
   sa.sa_flags = SA_RESTART;
