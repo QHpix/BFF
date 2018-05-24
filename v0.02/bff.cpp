@@ -16,17 +16,17 @@ int main(int argc, char** argv)
 {
   char name[50], rcv[50], buffer[50] = "TEST\n";
   int inp[2], outp[2];
-  void *funcptr(int);
-  struct sigaction sa;
+  //struct sigaction sa;
   strncpy(name, argv[1], sizeof(name));
 
   Handler hnd(name, inp, outp);
-  funcptr = hnd.sig_handler;
-  sa.sa_handler = funcptr;//hnd.sig_handler;
+  /*sa.sa_handler = Handler::sig_handler;
   sigemptyset(&sa.sa_mask);
   sa.sa_flags = SA_RESTART;
   if(sigaction(SIGSEGV, &sa, NULL) == -1)
     printf("Can't handle segfault\n");
+  */
+  hnd.sig_handler(SIGSEGV);
   hnd.interact();
   hnd.stopConnection();
 }
