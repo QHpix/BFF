@@ -1,10 +1,6 @@
 #include "lib/Handler.h"
 
-void SIG_HANDLER(int signo){
-  if (signo == SIGSEGV){
-    printf("[+] SIGSEGV RECEIVED\n");
-  }
-}
+
 Handler::Handler(const char *name, int inp[2], int outp[2]){
   _pid = 0;
   pipe(inp);
@@ -12,9 +8,14 @@ Handler::Handler(const char *name, int inp[2], int outp[2]){
   _pid = fork();
   if(_pid == 0)
   {
-      //something child
-      signal(SIGSEGV, SIG_HANDLER);
-//        printf("\ncan't catch SIGSEGV\n");
+      /*create and define the sigaction struct
+      struct sigaction sa;
+      sa.sa_handler = Handler::sig_handler;
+      sigemptyset(&sa.sa_mask);
+      sa.sa_flags = SA_RESTART;
+      //handle the signal
+      if(sigaction(SIGSEGV, &sa, NULL) == -1)
+        printf("Can't handle segfault\n");*/
       dup2(outp[0], STDIN_FILENO);
       dup2(inp[1], STDOUT_FILENO);
       dup2(inp[1], STDERR_FILENO);
@@ -79,4 +80,17 @@ void Handler::interact(void){
     read(0, buffer, sizeof(buffer));
     send(buffer, sizeof(buffer));
   }
+}
+void Handler::sig_handler(int signo) {
+  if (signo == SIGSEGV){
+    //terminate the child process
+    kill(_pid, SIGTERM);
+    child_Died();
+  }
+}
+void Handler::child_Died() {
+  char flag[5] = {'D', 'B', 'E', 'E', 'F'};
+  printf("Child got SEGFAULT!\n");
+  exit(0);
+  //handle the segfault from here.
 }

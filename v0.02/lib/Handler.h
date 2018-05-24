@@ -29,7 +29,10 @@ class Handler {
         void send(const void *data, size_t n);
         void interact(void);
         void stopConnection(void);
+        void sig_handler(int);
+        void child_Died(void);
         PIPE getPipe(void);
+        struct sigaction sa;
     private:
         pid_t _pid;
         int _status;
